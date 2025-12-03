@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>購入ページ</h1>
+    <button id="checkoutBtn">購入する</button>
+
+    <script>
+      const API_BASE =
+        "https://YOUR_VERCEL_URL/api"; // あとで差し替える
+
+      document.getElementById("checkoutBtn").onclick = async () => {
+        const res = await fetch(`${API_BASE}/checkout`, {
+          method: "POST",
+        });
+        const data = await res.json();
+        window.location.href = data.url;
+      };
+    </script>
+  </body>
+</html>
