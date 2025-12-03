@@ -1,145 +1,209 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>購入完了 - Suguraku</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suguraku - 仮チケット</title>
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
     }
 
-```
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top, #ecfeff, #f9fafb);
+      padding: 16px;
+    }
 
-.container {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  max-width: 500px;
-  width: 100%;
-  padding: 60px 40px;
-  text-align: center;
-}
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 24px 20px 20px;
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.18);
+      border: 1px solid #e5e7eb;
+    }
 
-.success-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 30px;
-  animation: scaleIn 0.5s ease;
-}
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 6px;
+    }
 
-@keyframes scaleIn {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
-}
+    .subtitle {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
 
-.success-icon svg {
-  width: 40px;
-  height: 40px;
-  color: white;
-}
+    .ticket {
+      border-radius: 18px;
+      border: 1px dashed #4f46e5;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #eef2ff, #f9fafb);
+      margin-bottom: 16px;
+    }
 
-h1 {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 15px;
-}
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: #374151;
+    }
 
-p {
-  color: #666;
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 30px;
-}
+    .ticket-label {
+      color: #6b7280;
+    }
 
-.session-id {
-  background: #f5f5f5;
-  padding: 15px;
-  border-radius: 8px;
-  font-family: monospace;
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 30px;
-  word-break: break-all;
-}
+    .ticket-main {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+    }
 
-.button {
-  display: inline-block;
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  color: white;
-  text-decoration: none;
-  padding: 15px 40px;
-  border-radius: 12px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
-}
+    .note {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 10px;
+    }
 
-.button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
-}
-```
+    .warning {
+      font-size: 12px;
+      color: #b45309;
+      background: #fffbeb;
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid #facc15;
+      margin-bottom: 12px;
+    }
 
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.6);
+    }
+
+    .btn-secondary {
+      font-size: 12px;
+      background: #f3f4f6;
+      color: #4b5563;
+    }
+
+    .small {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="success-icon">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-      </svg>
+  <main class="card">
+    <h1 class="title">仮チケットが発行されました</h1>
+    <p class="subtitle">
+      この画面をスタッフに見せてください。確認後、優先レーンまたは待機場所へご案内します。
+    </p>
+
+    <section class="ticket">
+      <div class="ticket-main" id="facilityName">Suguraku 提携店舗</div>
+
+      <div class="ticket-row">
+        <span class="ticket-label">チケットID</span>
+        <span id="ticketId">読み込み中...</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">人数</span>
+        <span id="people">-</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">代表者</span>
+        <span id="customerName">-</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">購入日時</span>
+        <span id="purchasedAt">-</span>
+      </div>
+    </section>
+
+    <p class="note">
+      ※ この画面はあくまで「仮チケット」です。実際のご案内・提供内容は店舗スタッフの指示に従ってください。
+    </p>
+
+    <p class="warning">
+      画面を閉じてしまうとチケットIDが分からなくなります。スクリーンショットを保存しておくことをおすすめします。
+    </p>
+
+    <div class="actions">
+      <button class="btn-secondary btn" onclick="window.location.href='buy.html'">
+        もう一度購入する
+      </button>
+      <button class="btn-primary btn" onclick="window.print()">
+        チケットを印刷 / 保存
+      </button>
     </div>
 
-```
-<h1>✨ 購入完了！</h1>
-<p>
-  お支払いが正常に完了しました。<br>
-  ご購入ありがとうございます！
-</p>
-
-<div class="session-id" id="session-info">
-  セッション情報を読み込み中...
-</div>
-
-<a href="/" class="button">トップページへ戻る</a>
-```
-
-  </div>
+    <p class="small">
+      ※ 本番運用ではサーバー側で「本当に決済が成功したか」を再チェックする処理を追加します。（今はデモ用）
+    </p>
+  </main>
 
   <script>
-    // URL パラメータからセッションIDを取得
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session_id');
-    
-    const sessionInfo = document.getElementById('session-info');
-    if (sessionId) {
-      sessionInfo.textContent = `セッションID: ${sessionId}`;
-    } else {
-      sessionInfo.textContent = '購入が完了しました';
-    }
-  </script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id') || '';
+    const people = params.get('people') || '1';
+    const name = params.get('name') || '代表者名';
 
+    const shortId = sessionId ? sessionId.slice(-8) : 'TEST-TICKET';
+
+    document.getElementById('ticketId').textContent = shortId;
+    document.getElementById('people').textContent = `${people} 名`;
+    document.getElementById('customerName').textContent = name;
+
+    const now = new Date();
+    const formatted = now.toLocaleString('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    document.getElementById('purchasedAt').textContent = formatted;
+  </script>
 </body>
 </html>
