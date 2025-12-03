@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購入完了 - Suguraku</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+```
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-width: 500px;
+  width: 100%;
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.success-icon svg {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.session-id {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 30px;
+  word-break: break-all;
+}
+
+.button {
+  display: inline-block;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  text-decoration: none;
+  padding: 15px 40px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(17, 153, 142, 0.6);
+}
+```
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-icon">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+
+```
+<h1>✨ 購入完了！</h1>
+<p>
+  お支払いが正常に完了しました。<br>
+  ご購入ありがとうございます！
+</p>
+
+<div class="session-id" id="session-info">
+  セッション情報を読み込み中...
+</div>
+
+<a href="/" class="button">トップページへ戻る</a>
+```
+
+  </div>
+
+  <script>
+    // URL パラメータからセッションIDを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    
+    const sessionInfo = document.getElementById('session-info');
+    if (sessionId) {
+      sessionInfo.textContent = `セッションID: ${sessionId}`;
+    } else {
+      sessionInfo.textContent = '購入が完了しました';
+    }
+  </script>
+
+</body>
+</html>
