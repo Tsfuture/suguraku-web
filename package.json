@@ -1,0 +1,15 @@
+{
+“name”: “suguraku-web”,
+“version”: “1.0.0”,
+“description”: “Stripe決済システム”,
+“main”: “api/checkout.js”,
+“scripts”: {
+“dev”: “vercel dev”
+},
+“dependencies”: {
+“stripe”: “^14.0.0”
+},
+“engines”: {
+“node”: “>=18.x”
+}
+}
