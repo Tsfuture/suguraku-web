@@ -1,151 +1,19 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>購入ページ | Suguraku</title>
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: "Inter", sans-serif;
-      background: linear-gradient(145deg, #0f0f12, #1e1f25);
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      backdrop-filter: blur(15px);
-      border-radius: 18px;
-      width: 100%;
-      max-width: 420px;
-      padding: 32px;
-      text-align: center;
-      box-shadow: 0 0 40px rgba(0,0,0,0.3);
-      animation: fadeIn 0.8s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h1 {
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    p.description {
-      color: #b5b5b5;
-      font-size: 15px;
-      margin-bottom: 30px;
-    }
-
-    .price-box {
-      background: rgba(255,255,255,0.08);
-      padding: 16px;
-      border-radius: 14px;
-      margin-bottom: 32px;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .price {
-      font-size: 32px;
-      font-weight: 700;
-    }
-
-    #checkoutBtn {
-      background: linear-gradient(135deg, #6366f1, #4f46e5, #4338ca);
-      border: none;
-      color: white;
-      padding: 16px 26px;
-      font-size: 17px;
-      font-weight: 600;
-      border-radius: 12px;
-      cursor: pointer;
-      width: 100%;
-      transition: transform 0.15s ease, box-shadow 0.2s ease;
-    }
-
-    #checkoutBtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(99,102,241,0.4);
-    }
-
-    #checkoutBtn:active {
-      transform: translateY(1px);
-      box-shadow: none;
-    }
-
-    .footer {
-      margin-top: 26px;
-      font-size: 13px;
-      color: #7a7a7a;
-    }
-
-    .error {
-      color: #ff8a8a;
-      margin-top: 10px;
-      font-size: 14px;
-      display: none;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="card">
-    <h1>FastPass 購入</h1>
-    <p class="description">行列をスキップできる革新的パスを今すぐ入手。</p>
-
-    <div class="price-box">
-      <div class="price">¥700</div>
-      <div style="font-size: 14px; opacity: 0.7;">1 回分</div>
-    </div>
-
+<html>
+  <body>
+    <h1>購入ページ</h1>
     <button id="checkoutBtn">購入する</button>
-    <div id="errorMsg" class="error"></div>
 
-    <div class="footer">Powered by Suguraku × Stripe</div>
-  </div>
+    <script>
+      const API_BASE = "https://suguraku-web.vercel.app/api";
 
-  <script>
-    const API_BASE = "https://suguraku-web.vercel.app/api";
-
-    document.getElementById("checkoutBtn").onclick = async () => {
-      const btn = document.getElementById("checkoutBtn");
-      const errorMsg = document.getElementById("errorMsg");
-      errorMsg.style.display = "none";
-
-      btn.disabled = true;
-      btn.innerText = "処理中…";
-
-      try {
-        const res = await fetch(`${API_BASE}/checkout`, { method: "POST" });
+      document.getElementById("checkoutBtn").onclick = async () => {
+        const res = await fetch(`${API_BASE}/checkout`, {
+          method: "POST",
+        });
         const data = await res.json();
-
-        if (!data.url) throw new Error("URLが返ってきませんでした");
-
         window.location.href = data.url;
-
-      } catch (err) {
-        errorMsg.innerText = "エラーが発生しました: " + err.message;
-        errorMsg.style.display = "block";
-      }
-
-      btn.disabled = false;
-      btn.innerText = "購入する";
-    };
-  </script>
-
-</body>
+      };
+    </script>
+  </body>
 </html>
