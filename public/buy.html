@@ -253,6 +253,27 @@ body {
       }
     });
   </script>
+<script>
+document.getElementById("checkout-button").addEventListener("click", async () => {
+  // ローディング表示（任意）
+  const loading = document.getElementById("loading");
+  if (loading) loading.style.display = "block";
 
+  // Stripe 決済APIを呼び出す
+  const response = await fetch("/api/checkout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  });
+
+  const data = await response.json();
+
+  if (data.url) {
+    // Stripe の決済ページへ移動
+    window.location.href = data.url;
+  } else {
+    alert("決済ページの生成に失敗しました。");
+  }
+});
+</script>
 </body>
 </html>
