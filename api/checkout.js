@@ -1,7 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports = async (req, res) => {
-  // CORS 設定
+
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -14,25 +14,6 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  // フロントから送られてきた JSON を読む
-  let rawBody = '';
-  for await (const chunk of req) {
-    rawBody += chunk;
-  }
-
-  let payload = {};
-  try {
-    payload = rawBody ? JSON.parse(rawBody) : {};
-  } catch (e) {
-    console.error('Failed to parse JSON body', e);
-  }
-
-  const people = Number(payload.people) || 1;
-  const name = payload.name || '';
-  const email = payload.email || '';
-
-  const origin = req.headers.origin || 'https://suguraku-web.vercel.app';
-
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -41,30 +22,24 @@ module.exports = async (req, res) => {
           price_data: {
             currency: 'jpy',
             product_data: {
-              name: 'Suguraku チケット',
-              description: '列を短縮するための優先チケット',
+              name: '商品名',
+              description: '商品の説明文',
             },
-            unit_amount: 1000, // TODO: ダイナミックプライシングを入れる
+            unit_amount: 1000,
           },
-          quantity: 1, // 1組あたり
+          quantity: 1,
         },
       ],
       mode: 'payment',
-      success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}&people=${encodeURIComponent(
-        people
-      )}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`,
-      cancel_url: `${origin}/cancel.html`,
-      metadata: {
-        people: String(people),
-        customer_name: name,
-        customer_email: email,
-      },
+      success_url: `${req.headers.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${req.headers.origin}/cancel.html`,
     });
 
     return res.status(200).json({
       id: session.id,
       url: session.url,
     });
+
   } catch (error) {
     console.error('Stripe API Error:', error);
     return res.status(500).json({
