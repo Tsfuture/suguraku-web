@@ -1,429 +1,279 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Suguraku - チケット購入</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品購入 - Suguraku</title>
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      box-sizing: border-box;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: radial-gradient(circle at top, #eef2ff, #f9fafb);
-      padding: 16px;
-    }
+```
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
 
-    .card {
-      width: 100%;
-      max-width: 560px;
-      background: #ffffff;
-      border-radius: 24px;
-      padding: 24px 20px 20px;
-      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.18);
-      border: 1px solid #e5e7eb;
-    }
+.container {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  max-width: 450px;
+  width: 100%;
+  overflow: hidden;
+}
 
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+}
 
-    .step-badge {
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      font-weight: 600;
-      background: #eef2ff;
-      color: #4f46e5;
-    }
+.header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
 
-    .step-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #111827;
-    }
+.header p {
+  opacity: 0.9;
+  font-size: 14px;
+}
 
-    .step-subtitle {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 20px;
-    }
+.content {
+  padding: 40px 30px;
+}
 
-    .facility {
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #eef2ff, #f5f3ff);
-      margin-bottom: 16px;
-    }
+.product-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
 
-    .facility-name {
-      font-size: 16px;
-      font-weight: 600;
-      color: #111827;
-      margin-bottom: 6px;
-    }
+.product-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
 
-    .facility-meta {
-      font-size: 12px;
-      color: #6b7280;
-    }
+.product-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
 
-    .price-box {
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px dashed #c7d2fe;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-    }
+.product-description {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
 
-    .price-label {
-      font-size: 12px;
-      color: #6b7280;
-    }
+.price {
+  font-size: 32px;
+  font-weight: 700;
+  color: #667eea;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
 
-    .price-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: #111827;
-    }
+.price-currency {
+  font-size: 20px;
+  font-weight: 500;
+}
 
-    .price-note {
-      font-size: 11px;
-      color: #6b7280;
-      margin-top: 4px;
-    }
+.buy-button {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
 
-    .fieldset {
-      margin-bottom: 18px;
-    }
+.buy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
 
-    .label {
-      font-size: 13px;
-      color: #374151;
-      margin-bottom: 6px;
-      display: block;
-      font-weight: 500;
-    }
+.buy-button:active {
+  transform: translateY(0);
+}
 
-    .input,
-    .select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      background: #f9fafb;
-    }
+.buy-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
 
-    .input:focus,
-    .select:focus {
-      border-color: #4f46e5;
-      box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.15);
-      background: #ffffff;
-    }
+.security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  color: #999;
+  font-size: 13px;
+}
 
-    .checkbox-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+.security-badge svg {
+  width: 16px;
+  height: 16px;
+}
 
-    .checkbox-row input {
-      margin-top: 3px;
-    }
+.loading {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+  color: #667eea;
+  font-size: 14px;
+}
 
-    .checkbox-row label {
-      font-size: 12px;
-      color: #4b5563;
-      line-height: 1.5;
-    }
+.loading.active {
+  display: block;
+}
 
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      margin-top: 18px;
-    }
+.error-message {
+  display: none;
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 14px;
+}
 
-    .btn {
-      border: none;
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
-    }
+.error-message.active {
+  display: block;
+}
+```
 
-    .btn-primary {
-      flex: 1;
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
-      color: #ffffff;
-      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.45);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.6);
-    }
-
-    .btn-secondary {
-      font-size: 12px;
-      padding: 8px 12px;
-      background: #f3f4f6;
-      color: #4b5563;
-    }
-
-    .step-indicator {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 14px;
-    }
-
-    .step-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #e5e7eb;
-      transition: background 0.15s, transform 0.15s;
-    }
-
-    .step-dot.active {
-      background: #4f46e5;
-      transform: scale(1.35);
-    }
-
-    .helper-text {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #9ca3af;
-      text-align: left;
-    }
-
-    .secure {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .secure-icon {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 1px solid #10b981;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: #10b981;
-    }
-
-    .loading {
-      display: none;
-      margin-top: 10px;
-      font-size: 12px;
-      color: #4b5563;
-    }
-
-    .error-message {
-      display: none;
-      margin-top: 10px;
-      font-size: 12px;
-      color: #b91c1c;
-    }
-
-    .error-message.active {
-      display: block;
-    }
-
-    .step {
-      display: none;
-    }
-
-    .step.active {
-      display: block;
-    }
-
-    @media (max-width: 480px) {
-      .card {
-        padding: 20px 16px 16px;
-        border-radius: 20px;
-      }
-      .step-title {
-        font-size: 16px;
-      }
-    }
   </style>
 </head>
 <body>
-  <main class="card">
-    <!-- STEP 1: 店舗/施設ページ -->
-    <section class="step active" data-step="1">
-      <div class="step-header">
-        <div class="step-badge">1</div>
-        <div>
-          <div class="step-title">店舗ページ</div>
-          <p class="step-subtitle">QRコードを読み取ったお客様が最初に見る画面です。</p>
-        </div>
-      </div>
+  <div class="container">
+    <div class="header">
+      <h1>🎉 商品購入</h1>
+      <p>安全・簡単にお支払いいただけます</p>
+    </div>
 
-      <div class="facility">
-        <div class="facility-name" id="facilityName">Suguraku 提携店舗</div>
-        <p class="facility-meta">
-          現在のお客様の組に適用されるチケット価格です。混雑状況により価格が変動します。
-        </p>
+```
+<div class="content">
+  <div class="product-card">
+    <div class="product-name">サンプル商品</div>
+    <div class="product-description">
+      これは購入テスト用のサンプル商品です。実際の商品情報に置き換えてご使用ください。
+    </div>
+    <div class="price">
+      <span class="price-currency">¥</span>
+      <span>1,000</span>
+    </div>
+  </div>
 
-        <div class="price-box">
-          <div>
-            <div class="price-label">現在のチケット価格（1組あたり）</div>
-          </div>
-          <div class="price-value" id="dynamicPrice">¥1,000</div>
-        </div>
+  <button id="checkout-button" class="buy-button">
+    今すぐ購入する
+  </button>
 
-        <p class="price-note">
-          ※ 客単価・回転数・待ち状況などをもとに自動計算されたダイナミックプライシングです。<br />
-          次の組では価格が変わる可能性があります。
-        </p>
-      </div>
+  <div class="security-badge">
+    <svg fill="currentColor" viewBox="0 0 20 20">
+      <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+    </svg>
+    Stripe による安全な決済
+  </div>
 
-      <div class="buttons">
-        <button id="step1-next" type="button" class="btn-primary btn">
-          今すぐ購入
-        </button>
-      </div>
+  <div id="loading" class="loading">
+    決済ページへ移動中...
+  </div>
 
-      <p class="helper-text">
-        ※ 価格は今はテストで固定です。あとで「サーバー → この画面」に本物のダイナミック価格を渡すようにします。
-      </p>
-    </section>
+  <div id="error-message" class="error-message"></div>
+</div>
+```
 
-    <!-- STEP 2: アカウント登録 -->
-    <section class="step" data-step="2">
-      <div class="step-header">
-        <div class="step-badge">2</div>
-        <div>
-          <div class="step-title">アカウント登録</div>
-          <p class="step-subtitle">次回以降もスムーズに使えるように、代表者の情報を登録します。</p>
-        </div>
-      </div>
+  </div>
 
-      <div class="fieldset">
-        <label class="label" for="email">メールアドレス</label>
-        <input id="email" class="input" type="email" placeholder="example@example.com" />
-      </div>
+  <script>
+    const button = document.getElementById('checkout-button');
+    const loading = document.getElementById('loading');
+    const errorMessage = document.getElementById('error-message');
 
-      <div class="fieldset">
-        <label class="label" for="name">代表者のお名前</label>
-        <input id="name" class="input" type="text" placeholder="山田 太郎" />
-      </div>
+    button.addEventListener('click', async () => {
+      // ボタンを無効化
+      button.disabled = true;
+      button.textContent = '処理中...';
+      loading.classList.add('active');
+      errorMessage.classList.remove('active');
 
-      <div class="helper-text">
-        ※ 本番ではここに「Googleでログイン」などのボタンを追加して、Supabase や認証サービスと連携します。今はフォームだけの簡易版。
-      </div>
+      try {
+        // API を呼び出し
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-      <div class="buttons">
-        <button id="step2-prev" type="button" class="btn-secondary btn">戻る</button>
-        <button id="step2-next" type="button" class="btn-primary btn">登録して次へ</button>
-      </div>
-    </section>
+        const data = await response.json();
 
-    <!-- STEP 3: チケット選択 -->
-    <section class="step" data-step="3">
-      <div class="step-header">
-        <div class="step-badge">3</div>
-        <div>
-          <div class="step-title">チケット選択</div>
-          <p class="step-subtitle">代表者1名が、利用する人数分のチケットを選択します。</p>
-        </div>
-      </div>
+        if (!response.ok) {
+          throw new Error(data.error || 'エラーが発生しました');
+        }
 
-      <div class="fieldset">
-        <label class="label" for="people">人数（合計）</label>
-        <input id="people" class="input" type="number" min="1" max="10" value="1" />
-      </div>
+        // Stripe チェックアウトページへリダイレクト
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error('チェックアウトURLが取得できませんでした');
+        }
 
-      <div class="fieldset">
-        <span class="label">お支払い予定金額（目安）</span>
-        <div class="price-box">
-          <div class="price-label">現在の1組あたり価格 × 人数</div>
-          <div class="price-value" id="estimatedTotal">¥1,000</div>
-        </div>
-      </div>
+      } catch (error) {
+        console.error('Error:', error);
+        errorMessage.textContent = `エラー: ${error.message}`;
+        errorMessage.classList.add('active');
+        button.disabled = false;
+        button.textContent = '今すぐ購入する';
+        loading.classList.remove('active');
+      }
+    });
+  </script>
+<script>
+document.getElementById("checkout-button").addEventListener("click", async () => {
+  // ローディング表示（任意）
+  const loading = document.getElementById("loading");
+  if (loading) loading.style.display = "block";
 
-      <div class="buttons">
-        <button id="step3-prev" type="button" class="btn-secondary btn">戻る</button>
-        <button id="step3-next" type="button" class="btn-primary btn">同意事項へ進む</button>
-      </div>
-    </section>
+  // Stripe 決済APIを呼び出す
+  const response = await fetch("/api/checkout", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" }
+  });
 
-    <!-- STEP 4: 同意事項 -->
-    <section class="step" data-step="4">
-      <div class="step-header">
-        <div class="step-badge">4</div>
-        <div>
-          <div class="step-title">同意事項の確認</div>
-          <p class="step-subtitle">購入前に、必ずご確認・ご同意ください。</p>
-        </div>
-      </div>
+  const data = await response.json();
 
-      <div class="fieldset">
-        <div class="checkbox-row">
-          <input id="agree1" type="checkbox" />
-          <label for="agree1">代表者1名が人数分のチケットをまとめて購入します。</label>
-        </div>
-        <div class="checkbox-row">
-          <input id="agree2" type="checkbox" />
-          <label for="agree2">
-            施設の利用料・飲食代・診察料などが別途発生する可能性があることを理解しています。
-          </label>
-        </div>
-        <div class="checkbox-row">
-          <input id="agree3" type="checkbox" />
-          <label for="agree3">
-            Sugurakuチケットは「列の先頭付近に案内される権利」であり、多少の待ち時間が発生する場合があることに同意します。
-          </label>
-        </div>
-      </div>
-
-      <div class="buttons">
-        <button id="step4-prev" type="button" class="btn-secondary btn">戻る</button>
-        <button id="toCheckout" type="button" class="btn-primary btn">同意して決済へ進む</button>
-      </div>
-
-      <div class="secure">
-        <div class="secure-icon">✓</div>
-        <span>決済は Stripe を利用し、安全に処理されます。カード情報は店舗側には共有されません。</span>
-      </div>
-
-      <div
+  if (data.url) {
+    // Stripe の決済ページへ移動
+    window.location.href = data.url;
+  } else {
+    alert("決済ページの生成に失敗しました。");
+  }
+});
+</script>
+</body>
+</html>
