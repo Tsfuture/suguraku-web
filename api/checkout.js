@@ -24,9 +24,9 @@ export default async function handler(req, res) {
       cancel_url: "https://suguraku-web.vercel.app/cancel.html",
     });
 
-    res.status(200).json({ url: session.url });
+    return res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error("Stripe Checkout Error:", error);
-    res.status(500).json({ error: error.message });
+    console.error("Stripe Error:", error);
+    return res.status(500).json({ error: error.message });
   }
 }
