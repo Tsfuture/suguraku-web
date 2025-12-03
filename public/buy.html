@@ -288,7 +288,7 @@
 </head>
 <body>
   <main class="card">
-    <!-- STEP 1: 店舗/施設ページ（QR読み取り後） -->
+    <!-- STEP 1: 店舗/施設ページ -->
     <section class="step active" data-step="1">
       <div class="step-header">
         <div class="step-badge">1</div>
@@ -318,12 +318,7 @@
       </div>
 
       <div class="buttons">
-        <button
-  type="button"
-  class="btn-primary btn"
-  data-next-step="2"
-  onclick="goToStep(2)"
->
+        <button id="step1-next" type="button" class="btn-primary btn">
           今すぐ購入
         </button>
       </div>
@@ -333,7 +328,7 @@
       </p>
     </section>
 
-    <!-- STEP 2: アカウント登録画面 -->
+    <!-- STEP 2: アカウント登録 -->
     <section class="step" data-step="2">
       <div class="step-header">
         <div class="step-badge">2</div>
@@ -358,12 +353,12 @@
       </div>
 
       <div class="buttons">
-        <button type="button" class="btn-secondary btn" data-prev-step="1">戻る</button>
-        <button type="button" class="btn-primary btn" data-next-step="3">登録して次へ</button>
+        <button id="step2-prev" type="button" class="btn-secondary btn">戻る</button>
+        <button id="step2-next" type="button" class="btn-primary btn">登録して次へ</button>
       </div>
     </section>
 
-    <!-- STEP 3: チケット選択画面 -->
+    <!-- STEP 3: チケット選択 -->
     <section class="step" data-step="3">
       <div class="step-header">
         <div class="step-badge">3</div>
@@ -387,12 +382,12 @@
       </div>
 
       <div class="buttons">
-        <button type="button" class="btn-secondary btn" data-prev-step="2">戻る</button>
-        <button type="button" class="btn-primary btn" data-next-step="4">同意事項へ進む</button>
+        <button id="step3-prev" type="button" class="btn-secondary btn">戻る</button>
+        <button id="step3-next" type="button" class="btn-primary btn">同意事項へ進む</button>
       </div>
     </section>
 
-    <!-- STEP 4: 同意事項確認画面 -->
+    <!-- STEP 4: 同意事項 -->
     <section class="step" data-step="4">
       <div class="step-header">
         <div class="step-badge">4</div>
@@ -421,11 +416,14 @@
         </div>
       </div>
 
-      <div class="helper-text">
-        ※ テーマパーク / クリニック / 飲食店など、業態ごとにこの文言だけ差し替えればOKです。
+      <div class="buttons">
+        <button id="step4-prev" type="button" class="btn-secondary btn">戻る</button>
+        <button id="toCheckout" type="button" class="btn-primary btn">同意して決済へ進む</button>
       </div>
 
-      <div class="buttons">
-        <button type="button" class="btn-secondary btn" data-prev-step="3">戻る</button>
-        <!-- ここから Stripe 決済ページ（カード登録画面）へ飛ぶ -->
-        <button type="button" class="btn-primary btn" id="toCheckout">同意して決済へ進む
+      <div class="secure">
+        <div class="secure-icon">✓</div>
+        <span>決済は Stripe を利用し、安全に処理されます。カード情報は店舗側には共有されません。</span>
+      </div>
+
+      <div
