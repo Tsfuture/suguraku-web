@@ -1,279 +1,84 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>商品購入 - Suguraku</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-```
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.container {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  max-width: 450px;
-  width: 100%;
-  overflow: hidden;
-}
-
-.header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 40px 30px;
-  text-align: center;
-}
-
-.header h1 {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-.header p {
-  opacity: 0.9;
-  font-size: 14px;
-}
-
-.content {
-  padding: 40px 30px;
-}
-
-.product-card {
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 25px;
-  margin-bottom: 30px;
-  transition: all 0.3s ease;
-}
-
-.product-card:hover {
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-}
-
-.product-name {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 8px;
-}
-
-.product-description {
-  color: #666;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.price {
-  font-size: 32px;
-  font-weight: 700;
-  color: #667eea;
-  display: flex;
-  align-items: baseline;
-  gap: 5px;
-}
-
-.price-currency {
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.buy-button {
-  width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 18px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.buy-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-}
-
-.buy-button:active {
-  transform: translateY(0);
-}
-
-.buy-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.security-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
-  color: #999;
-  font-size: 13px;
-}
-
-.security-badge svg {
-  width: 16px;
-  height: 16px;
-}
-
-.loading {
-  display: none;
-  text-align: center;
-  margin-top: 20px;
-  color: #667eea;
-  font-size: 14px;
-}
-
-.loading.active {
-  display: block;
-}
-
-.error-message {
-  display: none;
-  background: #fee;
-  border: 1px solid #fcc;
-  color: #c33;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-  font-size: 14px;
-}
-
-.error-message.active {
-  display: block;
-}
-```
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suguraku - 購入ページ</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        button {
+            background-color: #0070f3;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #0051bb; }
+        .info { margin-top: 20px; color: #666; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🎉 商品購入</h1>
-      <p>安全・簡単にお支払いいただけます</p>
-    </div>
+    <h1>🎟️ Suguraku 待ち時間短縮チケット</h1>
+    <p id="facility-info">施設ID: 読み込み中...</p>
+    <p class="info">※このチケットはダイナミックプライシング（時間帯により価格変動）が適用されています。</p>
+    <button id="buy-button">今すぐ購入する</button>
 
-```
-<div class="content">
-  <div class="product-card">
-    <div class="product-name">サンプル商品</div>
-    <div class="product-description">
-      これは購入テスト用のサンプル商品です。実際の商品情報に置き換えてご使用ください。
-    </div>
-    <div class="price">
-      <span class="price-currency">¥</span>
-      <span>1,000</span>
-    </div>
-  </div>
+    <!-- ★★★ ここから下の <script> タグ内が、新しいコードです ★★★ -->
+    <script>
+        // 1. URLから施設IDを取得 (例: ?facility=store-a の "store-a" 部分)
+        const urlParams = new URLSearchParams(window.location.search);
+        const facilityId = urlParams.get('facility') || 'default'; // 指定がなければ'default'を使う
+        
+        // 画面上に施設IDを表示（確認用）
+        document.getElementById('facility-info').textContent = `施設ID: ${facilityId}`;
 
-  <button id="checkout-button" class="buy-button">
-    今すぐ購入する
-  </button>
+        // 2. 「購入する」ボタンが押された時のメイン関数
+        async function handlePurchase() {
+            const buyButton = document.getElementById('buy-button');
+            
+            // ボタンを一時的に無効化し、「処理中...」と表示（二重クリック防止）
+            buyButton.disabled = true;
+            buyButton.textContent = '処理中...';
 
-  <div class="security-badge">
-    <svg fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-    </svg>
-    Stripe による安全な決済
-  </div>
+            try {
+                console.log('Sending facilityId to server:', facilityId);
+                
+                // 3. バックエンド(/api/checkout)に施設IDを送信
+                const response = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        facility: facilityId, // ← ここで施設IDを送っています！
+                    }),
+                });
 
-  <div id="loading" class="loading">
-    決済ページへ移動中...
-  </div>
-
-  <div id="error-message" class="error-message"></div>
-</div>
-```
-
-  </div>
-
-  <script>
-    const button = document.getElementById('checkout-button');
-    const loading = document.getElementById('loading');
-    const errorMessage = document.getElementById('error-message');
-
-    button.addEventListener('click', async () => {
-      // ボタンを無効化
-      button.disabled = true;
-      button.textContent = '処理中...';
-      loading.classList.add('active');
-      errorMessage.classList.remove('active');
-
-      try {
-        // API を呼び出し
-        const response = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'エラーが発生しました');
+                const data = await response.json();
+                console.log('Response from server:', data);
+                
+                // 4. Stripeの決済ページへリダイレクト
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('決済ページの作成に失敗しました。もう一度お試しください。');
+                    throw new Error('No URL in response');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('エラーが発生しました。コンソールをご確認ください。');
+            } finally {
+                // エラーが起きてもボタンは元に戻す
+                buyButton.disabled = false;
+                buyButton.textContent = '今すぐ購入する';
+            }
         }
 
-        // Stripe チェックアウトページへリダイレクト
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          throw new Error('チェックアウトURLが取得できませんでした');
-        }
-
-      } catch (error) {
-        console.error('Error:', error);
-        errorMessage.textContent = `エラー: ${error.message}`;
-        errorMessage.classList.add('active');
-        button.disabled = false;
-        button.textContent = '今すぐ購入する';
-        loading.classList.remove('active');
-      }
-    });
-  </script>
-<script>
-document.getElementById("checkout-button").addEventListener("click", async () => {
-  // ローディング表示（任意）
-  const loading = document.getElementById("loading");
-  if (loading) loading.style.display = "block";
-
-  // Stripe 決済APIを呼び出す
-  const response = await fetch("/api/checkout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" }
-  });
-
-  const data = await response.json();
-
-  if (data.url) {
-    // Stripe の決済ページへ移動
-    window.location.href = data.url;
-  } else {
-    alert("決済ページの生成に失敗しました。");
-  }
-});
-</script>
+        // 5. ページ上のボタンに関数を紐づける
+        document.getElementById('buy-button').addEventListener('click', handlePurchase);
+    </script>
+    <!-- ★★★ ここまでが、新しいコードです ★★★ -->
 </body>
 </html>
